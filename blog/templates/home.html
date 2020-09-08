@@ -1,18 +1,22 @@
+
 {% extends 'base.html' %}
 
 {% block title %}My blog{% endblock %}
 
 {% block content %}
-    <h1>Blog</h1>
-    {% for post in posts %}
-        <h2>
-            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-        </h2>
-        <p class="date">
-            Published {{ post.publish }} by {{ post.author }}
-        </p>
-        {{  post.body|truncatewords:30|linebreaks }}
-    {% endfor %}
+    <div class="card">
+        <h1 class="main">Blog</h1>
+        {% for post in posts %}
+            <h2>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </h2>
+            <p class="date">
+                Published {{ post.publish }} by {{ post.author }}
+            </p>
+            {{  post.body|truncatewords:30|linebreaks }}
+            <p class = "tags">Tags:{{ post.tags.all|join:", "}}</p>
+        {% endfor %}
+    </div>  
     {% include "pagination.html" with page=posts %}
     
     

@@ -5,10 +5,11 @@ from django.core.paginator import Paginator, EmptyPage,\
 PageNotAnInteger
 from . forms import EmailPostForm,CommentForm
 from django.core.mail import send_mail
+
 # Create your views here.
 
 
-def home(request):
+def home(request,tag_slug=None):
     post = Post.objects.all()
     paginator = Paginator(post,3)
     page = request.GET.get('page')
@@ -43,12 +44,13 @@ def post_detail(request, year, month, day, post):
                 new_comment.save()
         else:
             comment_form = CommentForm()
-            
+        post_tags_id = Post.tags.values_list('id',flat=True)
         context = {
             'post':post,
             'comments':comments,
             'new_comment':new_comment,
             'comment_form':comment_form
+            
         }
         return render(request,'detail.html',context)
     
